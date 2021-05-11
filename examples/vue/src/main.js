@@ -36,7 +36,10 @@ if (!window.__POWERED_BY_QIANKUN__) {
 function storeTest(props) {
   props.onGlobalStateChange &&
     props.onGlobalStateChange(
-      (value, prev) => console.log(`[onGlobalStateChange - ${props.name}]:`, value, prev),
+      (value, prev) => {
+        store.dispatch('stateChange', value)
+        console.log(`[onGlobalStateChange - ${props.name}]:`, value, prev)
+      },
       true,
     );
   props.setGlobalState &&
@@ -46,6 +49,7 @@ function storeTest(props) {
         name: props.name,
       },
     });
+  store.dispatch('setGlobal', props)
 }
 
 export async function bootstrap() {

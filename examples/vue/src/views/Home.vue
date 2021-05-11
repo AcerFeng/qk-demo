@@ -2,7 +2,10 @@
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png"/>
     <HelloWorld msg="Vue.js Demo"/>
-
+    <div>payload: {{ payload }}</div>
+    <div>vue: {{ vuetest }}</div>
+    <ElButton type="text" @click="test">test</ElButton>
+    <ElButton type="text" @click="test2">test2</ElButton>
     <el-button @click="dialogVisible = true" type="text">Open Dialog</el-button>
 
     <el-dialog
@@ -35,6 +38,12 @@
       };
     },
     methods: {
+      test() {
+        console.log(this.$store.state)
+      },
+      test2() {
+        this.$store.dispatch('setGlobalUserName', 'from vue ' + Date.now())
+      },
       handleClose(done) {
         this.$confirm('Sure to close？')
           .then(_ => {
@@ -44,5 +53,13 @@
           });
       },
     },
+    computed: {
+      payload() {
+        return this.$store.state.payload
+      },
+      vuetest() {
+        return this.$store.state.global
+      }
+    }
   };
 </script>

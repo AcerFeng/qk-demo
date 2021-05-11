@@ -1,6 +1,7 @@
 import 'zone.js'; // for angular subapp
 import { registerMicroApps, runAfterFirstMounted, setDefaultMountApp, start, initGlobalState } from 'qiankun';
 import './index.less';
+import store from "./store";
 
 /**
  * 主应用 **可以使用任意技术栈**
@@ -63,11 +64,18 @@ registerMicroApps(
   },
 );
 
-const { onGlobalStateChange, setGlobalState } = initGlobalState({
+const globalState = initGlobalState({
   user: 'qiankun',
 });
 
-onGlobalStateChange((value, prev) => console.log('[onGlobalStateChange - master]:', value, prev));
+store.dispatch('setMainGlobal', globalState)
+
+const { onGlobalStateChange, setGlobalState } = globalState
+
+onGlobalStateChange((value, prev) => {
+  store.dispatch('setTest', value)
+  console.log('[onGlobalStateChange - master]:', value, prev)
+});
 
 setGlobalState({
   ignore: 'master',
